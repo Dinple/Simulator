@@ -2,8 +2,8 @@ import os, sys, random, time
 import logging
 sys.path.append("../")
 
-from objects import *
-from utilities import *
+from simulator.objects import *
+from simulator.utilities import *
 # from algorithm import *
 
 # current_time = time.strftime("%Y%m%d_%H-%M")
@@ -54,7 +54,7 @@ class CityReal:
         # City.__init__(self, M, N, n_side, time_interval)
         self.M = M  # row numbers
         self.N = N  # column numbers
-        self.nodes = [Node(i) for i in xrange(M * N)]  # a list of nodes: node id start from 0
+        self.nodes = [Node(i) for i in range(M * N)]  # a list of nodes: node id start from 0
         self.drivers = {}  # driver[driver_id] = driver_instance  , driver_id start from 0
         self.n_drivers = 0  # total idle number of drivers. online and not on service.
         self.n_offline_drivers = 0  # total number of offline drivers.
@@ -232,7 +232,7 @@ class CityReal:
                 mu = value[0]
                 distribution_param[key] = mu
             else:
-                print "Wrong distribution"
+                print("Wrong distribution")
 
         self.initial_order_random(distribution_name, distribution_param)
         self.step_generate_order_real()

@@ -3,6 +3,7 @@ from collections import defaultdict
 import sys
 import traceback
 import os, sys
+import numpy as np
 sys.path.append("../")
 from simulator.envs import *
 
@@ -66,7 +67,7 @@ def running_example():
         dispatch_action = []
         state, reward, _ = env.step(dispatch_action, generate_order=2)
 
-        print "City time {}: Order response rate: {}".format(env.city_time-1, env.order_response_rate)
+        print("City time {}: Order response rate: {}".format(env.city_time-1, env.order_response_rate))
         order_response_rates.append(env.order_response_rate)
 
         print("idle driver: {} == {} total num of drivers: {}".format(np.sum(state[0]),
@@ -76,7 +77,7 @@ def running_example():
         assert np.sum(state[0]) == env.n_drivers
 
         T += 1
-    print np.mean(order_response_rates)
+    print(np.mean(order_response_rates))
 
 
 if __name__ == "__main__":

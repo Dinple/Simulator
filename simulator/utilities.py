@@ -1,9 +1,6 @@
 import numpy as np
 import os
 import errno
-
-
-
 from datetime import datetime, timedelta
 
 def datetime_range(start, end, delta):
@@ -32,7 +29,7 @@ def ids_2dto1d(i, j, M, N):
     '''
     assert 0 <= i < M and 0 <= j < N
     index = i * N + j
-    return index
+    return int(index)
 
 
 def ids_1dto2d(ids, M, N):

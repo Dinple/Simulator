@@ -1,6 +1,6 @@
 import numpy as np
 from abc import ABCMeta, abstractmethod
-from utilities import *
+from simulator.utilities import *
 
 class Distribution():
     ''' Define the distribution from which sample the orders'''
