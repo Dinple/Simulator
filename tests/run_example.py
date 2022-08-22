@@ -24,7 +24,8 @@ def running_example():
 
     idle_driver_dist_time = [[10, 1] for _ in np.arange(144)]
 
-    n_side = 6
+    # hex = 6, square = 4
+    n_side = 4
     l_max = 2
     order_time = [0.2, 0.2, 0.15,
                   0.15,  0.1,  0.1,
@@ -67,17 +68,17 @@ def running_example():
         dispatch_action = []
         state, reward, _ = env.step(dispatch_action, generate_order=2)
 
-        print("City time {}: Order response rate: {}".format(env.city_time-1, env.order_response_rate))
+        print(("City time {}: Order response rate: {}".format(env.city_time-1, env.order_response_rate)))
         order_response_rates.append(env.order_response_rate)
 
-        print("idle driver: {} == {} total num of drivers: {}".format(np.sum(state[0]),
+        print(("idle driver: {} == {} total num of drivers: {}".format(np.sum(state[0]),
                                                                       np.sum(env.get_observation_driver_state()),
-                                                                      len(env.drivers.keys())))
+                                                                      len(list(env.drivers.keys())))))
 
         assert np.sum(state[0]) == env.n_drivers
 
         T += 1
-    print(np.mean(order_response_rates))
+    print((np.mean(order_response_rates)))
 
 
 if __name__ == "__main__":

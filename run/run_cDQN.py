@@ -11,7 +11,7 @@ dir_prefix = "/mnt/research/linkaixi/AllData/dispatch/"
 current_time = time.strftime("%Y%m%d_%H-%M")
 log_dir = dir_prefix + "dispatch_simulator/experiments/{}/".format(current_time)
 mkdir_p(log_dir)
-print "log dir is {}".format(log_dir)
+print("log dir is {}".format(log_dir))
 
 
 data_dir = dir_prefix + "dispatch_realdata/data_for_simulator/"
@@ -26,7 +26,7 @@ onoff_driver_location_mat = pickle.load(open(data_dir + "onoff_driver_location_m
 order_filename = dir_prefix + "dispatch_realdata/orders/all_orders_target"
 order_real = pickle.load(open(order_filename, 'rb'))
 M, N = mapped_matrix_int.shape
-print "finish load data"
+print("finish load data")
 
 
 ################## Initialize env ###################################
@@ -49,11 +49,11 @@ target_id_states = env.target_grids + temp.tolist()
 
 curr_s = np.array(env.reset_clean()).flatten()  # [0] driver dist; [1] order dist
 curr_s = utility_conver_states(curr_s, target_id_states)
-print "******************* Finish generating one day order **********************"
+print("******************* Finish generating one day order **********************")
 
 
 
-print "******************* Starting training Deep SARSA **********************"
+print("******************* Starting training Deep SARSA **********************")
 from algorithm.cDQN import *
 
 MAX_ITER = 50
@@ -100,7 +100,7 @@ RATIO = 1
 saver = tf.train.Saver()
 
 
-print "Start training contextual deep Q learning. "
+print("Start training contextual deep Q learning. ")
 save_random_seed = []
 N_ITER_RUNS = 25
 temp_value = 10
@@ -207,11 +207,11 @@ for n_iter in np.arange(N_ITER_RUNS):
     episode_dispatched_drivers.append(np.sum(curr_num_actions[:-1]))
 
 
-    print "******** iteration {} ********* reward {}, order_response_rate {} number drivers {}, conflicts {}, epsilon {}".format(n_iter, episode_reward,
+    print("******** iteration {} ********* reward {}, order_response_rate {} number drivers {}, conflicts {}, epsilon {}".format(n_iter, episode_reward,
                                                                                                         n_iter_order_response_rate,
                                                                                                          episode_dispatched_drivers[-1],
                                                                                                         episode_conflicts_drivers[-1],
-                                                                                                             epsilon)
+                                                                                                             epsilon))
 
 
     pickle.dump([episode_rewards, order_response_rate_episode, save_random_seed, episode_conflicts_drivers, episode_dispatched_drivers], open(log_dir + "results.pkl", "w"))

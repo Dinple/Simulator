@@ -224,7 +224,7 @@ class CityReal:
         distribution_name = [self.distribution_name]*(_M*_N)
         distribution_param_dictionary = self.order_num_dist[self.city_time]
         distribution_param = [0]*(_M*_N)
-        for key, value in distribution_param_dictionary.iteritems():
+        for key, value in distribution_param_dictionary.items():
             if self.distribution_name == 'Gaussian':
                 mu, sigma = value
                 distribution_param[key] = mu, sigma
@@ -279,7 +279,7 @@ class CityReal:
         """
         count = 0 # offline driver num
         offline_drivers = []   # record offline driver id
-        for key, _driver in self.drivers.iteritems():
+        for key, _driver in self.drivers.items():
             if _driver.online is False:
                 count += 1
                 offline_drivers.append(_driver.get_driver_id())
@@ -308,7 +308,7 @@ class CityReal:
         node_ids = np.random.choice(self.target_node_ids, size=[num_added_driver],
                                     p=idle_diff/float(np.sum(idle_diff)))
 
-        n_total_drivers = len(self.drivers.keys())
+        n_total_drivers = len(list(self.drivers.keys()))
         for ii, node_id in enumerate(node_ids):
             added_driver_id = n_total_drivers + ii
             self.drivers[added_driver_id] = Driver(added_driver_id)
@@ -343,7 +343,7 @@ class CityReal:
                 self.n_offline_drivers -= 1
             else:
 
-                n_total_drivers = len(self.drivers.keys())
+                n_total_drivers = len(list(self.drivers.keys()))
                 added_driver_id = n_total_drivers
                 self.drivers[added_driver_id] = Driver(added_driver_id)
                 self.drivers[added_driver_id].set_position(self.nodes[node_id])
@@ -360,7 +360,7 @@ class CityReal:
                 self.n_offline_drivers -= 1
             else:
 
-                n_total_drivers = len(self.drivers.keys())
+                n_total_drivers = len(list(self.drivers.keys()))
                 added_driver_id = n_total_drivers
                 self.drivers[added_driver_id] = Driver(added_driver_id)
                 self.drivers[added_driver_id].set_position(self.nodes[node_id])
@@ -426,7 +426,7 @@ class CityReal:
         for iorder in one_day_orders:
             #  iorder: [92, 300, 143, 2, 13.2]
             start_time = int(iorder[2])
-            if iorder[0] not in self.node_mapping.keys() and iorder[1] not in self.node_mapping.keys():
+            if iorder[0] not in list(self.node_mapping.keys()) and iorder[1] not in list(self.node_mapping.keys()):
                 continue
             start_node = self.node_mapping.get(iorder[0], -100)
             end_node = self.node_mapping.get(iorder[1], -100)
@@ -444,7 +444,7 @@ class CityReal:
 
     def step_driver_status_control(self):
         # Deal with orders finished at time T=1, check driver status. finish order, set back to off service
-        for key, _driver in self.drivers.iteritems():
+        for key, _driver in self.drivers.items():
             _driver.status_control_eachtime(self)
         moment = self.city_time % self.n_intervals
         orders_to_on_drivers = self.out_grid_in_orders[moment, :]
@@ -705,7 +705,7 @@ class CityReal:
     def step_increase_city_time(self):
         self.city_time += 1
         # set city time of drivers
-        for driver_id, driver in self.drivers.iteritems():
+        for driver_id, driver in self.drivers.items():
             driver.set_city_time(self.city_time)
 
     def step(self, dispatch_actions, generate_order=1):

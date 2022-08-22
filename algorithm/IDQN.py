@@ -2,7 +2,7 @@
 import numpy as np
 import tensorflow as tf
 import random, os
-from alg_utility import *
+from .alg_utility import *
 
 
 class Estimator:
@@ -331,7 +331,7 @@ class ReplayMemory:
 
         if self.curr_lens <= self.batch_size:
             return [self.states, self.actions, self.rewards, self.next_states]
-        indices = random.sample(range(0, self.curr_lens), self.batch_size)
+        indices = random.sample(list(range(0, self.curr_lens)), self.batch_size)
         batch_s = self.states[indices]
         batch_a = self.actions[indices]
         batch_r = self.rewards[indices]

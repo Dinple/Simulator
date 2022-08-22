@@ -29,6 +29,7 @@ def ids_2dto1d(i, j, M, N):
     '''
     assert 0 <= i < M and 0 <= j < N
     index = i * N + j
+    print(("index", index))
     return int(index)
 
 
@@ -82,6 +83,9 @@ def get_neighbor_list(i, j, M, N, n, nodes):
                 neighbor_list[5] = nodes[ids_2dto1d(i-1, j-1, M, N)]
     elif n == 4:
         # square
+        print(("i, j, M, N", i, j, M, N))
+        print((len(nodes), ids_2dto1d(i+1, j+1, M, N)))
+
         if i - 1 >= 0:
             neighbor_list[0] = nodes[ids_2dto1d(i-1, j,   M, N)]
         if j + 1 < N:
@@ -174,7 +178,7 @@ def get_layers_neighbors(i, j, l_max, M, N):
 
 def get_driver_status(env):
     idle_driver_dist = np.zeros((env.M, env.N))
-    for driver_id, cur_drivers in env.drivers.iteritems():
+    for driver_id, cur_drivers in env.drivers.items():
         if cur_drivers.node is not None:
             node_id = cur_drivers.node.get_node_index()
             row, col = ids_1dto2d(node_id, env.M, env.N)
@@ -184,15 +188,15 @@ def get_driver_status(env):
     return idle_driver_dist
 
 def debug_print_drivers(node):
-    print("Status of all drivers in the node {}".format(node.get_node_index()))
-    print("|{:12}|{:12}|{:12}|{:12}|".format("driver id", "driver location", "online", "onservice"))
+    print(("Status of all drivers in the node {}".format(node.get_node_index())))
+    print(("|{:12}|{:12}|{:12}|{:12}|".format("driver id", "driver location", "online", "onservice")))
 
-    for driver_id, cur_drivers in node.drivers.iteritems():
+    for driver_id, cur_drivers in node.drivers.items():
         if cur_drivers.node is not None:
             node_id = cur_drivers.node.get_node_index()
         else:
             node_id = "none"
-        print("|{:12}|{:12}|{:12}|{:12}|".format(driver_id, node_id, cur_drivers.online, cur_drivers.onservice))
+        print(("|{:12}|{:12}|{:12}|{:12}|".format(driver_id, node_id, cur_drivers.online, cur_drivers.onservice)))
 
 
 

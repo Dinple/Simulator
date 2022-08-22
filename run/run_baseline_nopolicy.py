@@ -10,7 +10,7 @@ dir_prefix = "/mnt/research/linkaixi/AllData/dispatch/"
 current_time = time.strftime("%Y%m%d_%H-%M")
 log_dir = dir_prefix + "dispatch_simulator/experiments/{}/".format(current_time)
 mkdir_p(log_dir)
-print "log dir is {}".format(log_dir)
+print("log dir is {}".format(log_dir))
 
 data_dir = dir_prefix + "dispatch_realdata/data_for_simulator2017-07-24_2017-08-20/"
 order_time_dist = []
@@ -24,7 +24,7 @@ onoff_driver_location_mat = pickle.load(open(data_dir + "onoff_driver_location_m
 order_filename = dir_prefix + "dispatch_realdata/order_new_2017-07-24_2017-08-20/all_orders_target"
 order_real = pickle.load(open(order_filename, 'rb'))
 M, N = mapped_matrix_int.shape
-print "finish load data"
+print("finish load data")
 
 
 ################## Initialize env ###################################
@@ -43,11 +43,11 @@ mkdir_p(log_dir)
 temp = np.array(env.target_grids) + env.M * env.N
 target_id_states = env.target_grids + temp.tolist()
 
-print "******************* Finish generating one day order **********************"
+print("******************* Finish generating one day order **********************")
 
 
 
-print "******************* Starting runing no policy baseline **********************"
+print("******************* Starting runing no policy baseline **********************")
 
 
 MAX_ITER = 50  # 10 iteration the Q-learning loss will converge.
@@ -85,7 +85,7 @@ def compute_context(target_grids, info):
 
 RATIO = 1
 
-print "Start Running "
+print("Start Running ")
 save_random_seed = []
 episode_avaliables_vehicles = []
 for n_iter in np.arange(10):
@@ -134,13 +134,13 @@ for n_iter in np.arange(10):
     order_response_rate_episode.append(n_iter_order_response_rate)
     record_all_order_response_rate.append(order_response_rates)
 
-    print "******** iteration {} ********* reward {}, order response rate {} available vehicle {}".format(n_iter,
+    print("******** iteration {} ********* reward {}, order response rate {} available vehicle {}".format(n_iter,
                                                                                                           episode_reward,
                                                                                         n_iter_order_response_rate,
-                                                                                        episode_avaliables_vehicles[-1])
+                                                                                        episode_avaliables_vehicles[-1]))
 
     pickle.dump([episode_rewards, order_response_rate_episode, save_random_seed,
                  driver_numbers_episode, order_numbers_episode, episode_avaliables_vehicles], open(log_dir + "results.pkl", "w"))
 
 
-print "averaged available vehicles per time step: {}".format(np.mean(episode_avaliables_vehicles)/144.0)
+print("averaged available vehicles per time step: {}".format(np.mean(episode_avaliables_vehicles)/144.0))

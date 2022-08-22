@@ -2,9 +2,8 @@ import numpy as np
 from abc import ABCMeta, abstractmethod
 from simulator.utilities import *
 
-class Distribution():
+class Distribution(metaclass=ABCMeta):
     ''' Define the distribution from which sample the orders'''
-    __metaclass__ = ABCMeta  # python 2.7
     @abstractmethod
     def sample(self):
         pass
@@ -83,14 +82,14 @@ class Node(object):
 
     def get_idle_driver_numbers_loop(self):
         temp_idle_driver = 0
-        for key, driver in self.drivers.iteritems():
+        for key, driver in self.drivers.items():
             if driver.onservice is False and driver.online is True:
                 temp_idle_driver += 1
         return temp_idle_driver
 
     def get_off_driver_numbers_loop(self):
         temp_idle_driver = 0
-        for key, driver in self.drivers.iteritems():
+        for key, driver in self.drivers.items():
             if driver.onservice is False and driver.online is False:
                 temp_idle_driver += 1
         return temp_idle_driver
@@ -169,7 +168,7 @@ class Node(object):
     def remove_idle_driver_random(self):
         """Randomly remove one idle driver from current grid"""
         removed_driver_id = "NA"
-        for key, item in self.drivers.iteritems():
+        for key, item in self.drivers.items():
             if item.onservice is False and item.online is True:
                 self.remove_driver(key)
                 removed_driver_id = key
@@ -181,7 +180,7 @@ class Node(object):
     def set_idle_driver_offline_random(self):
         """Randomly set one idle driver offline"""
         removed_driver_id = "NA"
-        for key, item in self.drivers.iteritems():
+        for key, item in self.drivers.items():
             if item.onservice is False and item.online is True:
                 item.set_offline()
                 removed_driver_id = key
@@ -193,7 +192,7 @@ class Node(object):
     def set_offline_driver_online(self):
 
         online_driver_id = "NA"
-        for key, item in self.drivers.iteritems():
+        for key, item in self.drivers.items():
             if item.onservice is False and item.online is False:
                 item.set_online()
                 online_driver_id = key
@@ -206,7 +205,7 @@ class Node(object):
         """Randomly get one driver"""
         assert self.idle_driver_num > 0
         get_driver_id = 0
-        for key in self.drivers.iterkeys():
+        for key in self.drivers.keys():
             get_driver_id = key
             break
         return self.drivers[get_driver_id]
@@ -250,7 +249,7 @@ class Node(object):
             self.order_num -= 1
             reward += order_to_serve.get_price()
             served_order_index.append(idx)
-            for key, assigned_driver in self.drivers.iteritems():
+            for key, assigned_driver in self.drivers.items():
                 if assigned_driver.onservice is False and assigned_driver.online is True:
                     assigned_driver.take_order(order_to_serve)
                     removed_driver = self.drivers.pop(assigned_driver.get_driver_id(), None)
@@ -278,7 +277,7 @@ class Node(object):
             self.order_num -= 1
             reward += order_to_serve.get_price()
             served_order_index.append(idx)
-            for key, assigned_driver in self.drivers.iteritems():
+            for key, assigned_driver in self.drivers.items():
                 if assigned_driver.onservice is False and assigned_driver.online is True:
                     if order_to_serve.get_end_position() is not None:
                         assigned_driver.take_order(order_to_serve)
@@ -328,7 +327,7 @@ class Node(object):
             self.order_num -= 1
             reward += order_to_serve.get_price()
             served_order_index.append(idx)
-            for key, assigned_driver in neighbor_node.drivers.iteritems():
+            for key, assigned_driver in neighbor_node.drivers.items():
                 if assigned_driver.onservice is False and assigned_driver.online is True:
                     if order_to_serve.get_end_position() is not None:
                         assigned_driver.take_order(order_to_serve)
